@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="en-US">
+  <!-- This style was edited with the Visual CSL Editor (https://editor.citationstyles.org/codeEditor/) -->
+  <info>
+    <title>PROTEOMICS (numeric, Chicago-like: 2. Author, “Title,” Journal Vol (Year): Pages.)</title>
+    <id>http://www.zotero.org/styles/proteomics-numeric-chicago-like</id>
+    <category citation-format="numeric"/>
+    <updated>2026-02-16T04:27:00+00:00</updated>
+  </info>
+  <macro name="author">
+    <names variable="author" delimiter=", " and="text" delimiter-precedes-last="always" et-al-min="7" et-al-use-first="3">
+      <name name-as-sort-order="never" initialize-with=". "/>
+      <et-al prefix=", "/>
+    </names>
+  </macro>
+  <macro name="year-parens">
+    <choose>
+      <if variable="issued">
+        <date variable="issued">
+          <date-part name="year" prefix="(" suffix=")"/>
+        </date>
+      </if>
+      <else>
+        <text value="(n.d.)"/>
+      </else>
+    </choose>
+  </macro>
+  <macro name="title-quoted">
+    <text variable="title" quotes="true" suffix=","/>
+  </macro>
+  <macro name="journal-vol-year-pages">
+    <group>
+      <text variable="container-title" font-style="italic" suffix=" "/>
+      <text variable="volume" suffix=" "/>
+      <text macro="year-parens"/>
+      <choose>
+        <if variable="page">
+          <text variable="page" prefix=": "/>
+        </if>
+      </choose>
+      <text value="."/>
+    </group>
+  </macro>
+  <citation>
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout prefix="[" suffix="]" delimiter=",">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+  <bibliography hanging-indent="true" entry-spacing="0" line-spacing="1">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout>
+      <text variable="citation-number" suffix=". "/>
+      <text macro="author" suffix=", "/>
+      <text macro="title-quoted" suffix=" "/>
+      <text macro="journal-vol-year-pages"/>
+    </layout>
+  </bibliography>
+</style>
