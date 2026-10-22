@@ -10,7 +10,7 @@
     <issn>1535-9476</issn>
     <eissn>1535-9484</eissn>
     <summary>MCP numbered citations; six authors then et al.; journal abbreviations; bold volume; DOI fallback for early-online articles; dataset, preprint, book, and thesis formats.</summary>
-    <updated>2026-10-22T00:00:00+09:00</updated>
+    <updated>2026-10-22T13:00:00+09:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">Based on the Molecular &amp; Cellular Proteomics CSL; CC BY-SA 3.0.</rights>
   </info>
   <locale xml:lang="en">
@@ -30,7 +30,7 @@
   </macro>
   <macro name="publication-date">
     <choose>
-      <if type="article-journal">
+      <if type="article-journal article" match="any">
         <choose>
           <if variable="volume page" match="none">
             <date variable="issued" form="text" prefix="(" suffix=")"/>
@@ -170,7 +170,7 @@
         <if type="dataset">
           <text value="[dataset]" suffix=" "/>
         </if>
-        <else-if type="article manuscript" match="any">
+        <else-if type="manuscript">
           <text value="[preprint]" suffix=" "/>
         </else-if>
       </choose>
@@ -180,7 +180,7 @@
         <if type="dataset">
           <text macro="dataset-entry" suffix="."/>
         </if>
-        <else-if type="article manuscript" match="any">
+        <else-if type="manuscript">
           <text macro="preprint-entry"/>
         </else-if>
         <else-if type="book">
@@ -189,7 +189,7 @@
         <else-if type="thesis">
           <text macro="thesis-entry"/>
         </else-if>
-        <else-if type="article-journal">
+        <else-if type="article-journal article" match="any">
           <text macro="journal-article"/>
         </else-if>
         <else>
