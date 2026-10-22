@@ -1,57 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="sort-only" default-locale="en-US">
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="en-US" page-range-format="expanded">
   <info>
-    <title>Molecular &amp; Cellular Proteomics (Okuda custom)</title>
+    <title>Molecular &amp; Cellular Proteomics (Okuda; 2026 reference guidelines)</title>
     <id>https://raw.githubusercontent.com/yusei-okuda/Mendeley_okuda_cite/main/molecular-and-cellular-proteomics-okuda.csl</id>
     <link href="https://raw.githubusercontent.com/yusei-okuda/Mendeley_okuda_cite/main/molecular-and-cellular-proteomics-okuda.csl" rel="self"/>
     <link href="http://www.zotero.org/styles/molecular-and-cellular-proteomics" rel="template"/>
-    <link href="http://www.mcponline.org/site/misc/ifora.xhtml#references" rel="documentation"/>
-    <author>
-      <name>Vital Vialas</name>
-      <email>vvialasf@ucm.com</email>
-    </author>
     <category citation-format="numeric"/>
     <category field="science"/>
     <issn>1535-9476</issn>
     <eissn>1535-9484</eissn>
-    <summary>MCP numeric referencing with abbreviated journal titles where Mendeley supplies journal abbreviations. Article numbers stored in Pages are displayed.</summary>
+    <summary>MCP numbered citations; six authors then et al.; journal abbreviations; bold volume; DOI fallback for early-online articles; dataset, preprint, book, and thesis formats.</summary>
     <updated>2026-10-22T00:00:00+09:00</updated>
-    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">Based on the Molecular &amp; Cellular Proteomics CSL; CC BY-SA 3.0.</rights>
   </info>
-  <macro name="editor">
-    <names variable="editor" prefix=" " delimiter=", ">
-      <label form="short" suffix=" " strip-periods="true"/>
-      <name initialize-with="" name-as-sort-order="all" sort-separator=" " delimiter=", " delimiter-precedes-last="always"/>
-    </names>
-  </macro>
+  <locale xml:lang="en">
+    <terms>
+      <term name="page-range-delimiter">-</term>
+    </terms>
+  </locale>
   <macro name="author">
     <names variable="author">
-      <name name-as-sort-order="all" sort-separator=", " initialize-with=". " and="text" delimiter-precedes-last="always"/>
-      <label form="short" prefix=" " suffix="." strip-periods="false"/>
+      <name name-as-sort-order="all" sort-separator=", " initialize-with=". " delimiter=", " and="text" delimiter-precedes-last="always" delimiter-precedes-et-al="always" et-al-min="7" et-al-use-first="6"/>
+      <et-al/>
       <substitute>
         <names variable="editor"/>
         <text variable="title"/>
       </substitute>
     </names>
   </macro>
-  <macro name="publisher">
-    <group prefix=" (" delimiter=", " suffix=")">
+  <macro name="publication-date">
+    <choose>
+      <if type="article-journal" variable="volume page" match="none">
+        <date variable="issued" form="text" prefix="(" suffix=")"/>
+      </if>
+      <else>
+        <date variable="issued" prefix="(" suffix=")">
+          <date-part name="year"/>
+        </date>
+      </else>
+    </choose>
+  </macro>
+  <macro name="publication-identifier">
+    <choose>
+      <if variable="page">
+        <text variable="page"/>
+      </if>
+      <else-if variable="DOI">
+        <text variable="DOI"/>
+      </else-if>
+      <else-if variable="number">
+        <text variable="number"/>
+      </else-if>
+      <else>
+        <text variable="URL"/>
+      </else>
+    </choose>
+  </macro>
+  <macro name="journal-article">
+    <text variable="title" suffix="."/>
+    <group prefix=" " delimiter=" ">
+      <text variable="container-title" form="short" strip-periods="true" font-style="italic" suffix="."/>
+      <group delimiter=", ">
+        <text variable="volume" font-weight="bold"/>
+        <text macro="publication-identifier"/>
+      </group>
+    </group>
+  </macro>
+  <macro name="book-entry">
+    <text variable="title" font-style="italic"/>
+    <group prefix=", " delimiter=" ">
+      <number variable="edition" form="ordinal"/>
+      <text value="Ed."/>
+    </group>
+    <group prefix=" " delimiter=", ">
       <text variable="publisher"/>
       <text variable="publisher-place"/>
     </group>
   </macro>
-  <macro name="edition">
-    <choose>
-      <if is-numeric="edition">
-        <group prefix=". " delimiter=" ">
-          <number variable="edition" form="ordinal"/>
-          <text term="edition" form="short" text-case="capitalize-first"/>
-        </group>
-      </if>
-      <else>
-        <text variable="edition" suffix="."/>
-      </else>
-    </choose>
+  <macro name="thesis-entry">
+    <text variable="title" font-style="italic" suffix="."/>
+    <group prefix=" " delimiter=", ">
+      <choose>
+        <if variable="genre">
+          <text variable="genre"/>
+        </if>
+        <else>
+          <text value="Ph.D. thesis"/>
+        </else>
+      </choose>
+      <text variable="publisher"/>
+    </group>
+  </macro>
+  <macro name="dataset-entry">
+    <group delimiter=". ">
+      <text variable="title"/>
+      <choose>
+        <if variable="archive">
+          <text variable="archive"/>
+        </if>
+        <else-if variable="publisher">
+          <text variable="publisher"/>
+        </else-if>
+        <else>
+          <text variable="container-title"/>
+        </else>
+      </choose>
+      <text variable="version" prefix="Version "/>
+      <choose>
+        <if variable="DOI">
+          <text variable="DOI"/>
+        </if>
+        <else-if variable="number">
+          <text variable="number"/>
+        </else-if>
+        <else>
+          <text variable="URL"/>
+        </else>
+      </choose>
+    </group>
+  </macro>
+  <macro name="preprint-entry">
+    <text variable="title" suffix="."/>
+    <group prefix=" " delimiter=" ">
+      <choose>
+        <if variable="container-title">
+          <text variable="container-title" form="short" font-style="italic" strip-periods="true" suffix="."/>
+        </if>
+        <else-if variable="archive">
+          <text variable="archive" font-style="italic" suffix="."/>
+        </else-if>
+        <else>
+          <text variable="publisher" font-style="italic" suffix="."/>
+        </else>
+      </choose>
+      <choose>
+        <if variable="DOI">
+          <text variable="DOI"/>
+        </if>
+        <else>
+          <text variable="URL"/>
+        </else>
+      </choose>
+    </group>
   </macro>
   <citation collapse="citation-number">
     <sort>
@@ -61,48 +151,43 @@
       <text variable="citation-number"/>
     </layout>
   </citation>
-  <bibliography second-field-align="flush">
+  <bibliography second-field-align="flush" entry-spacing="0" line-spacing="1">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
     <layout>
       <text variable="citation-number" suffix=". "/>
-      <text macro="author"/>
-      <date variable="issued" prefix=" (" suffix=")">
-        <date-part name="year"/>
-      </date>
       <choose>
-        <if type="bill book graphic legal_case legislation motion_picture report song" match="any">
-          <group prefix=" ">
-            <text variable="title" font-style="italic"/>
-            <text macro="editor"/>
-            <text macro="publisher"/>
-            <text macro="edition"/>
-          </group>
+        <if type="dataset">
+          <text value="[dataset]" suffix=" "/>
         </if>
-        <else-if type="chapter paper-conference" match="any">
-          <group prefix=" " delimiter=" ">
-            <text term="in"/>
-            <group delimiter=", ">
-              <text variable="container-title" font-style="italic"/>
-              <text variable="collection-title" prefix=" " suffix="."/>
-              <text macro="editor"/>
-            </group>
-          </group>
-          <group suffix=".">
-            <text macro="publisher" prefix=" "/>
-            <group prefix=", ">
-              <label variable="page" suffix=" " form="short" strip-periods="true"/>
-              <text variable="page"/>
-            </group>
-          </group>
-          <text macro="edition"/>
+        <else-if type="article manuscript" match="any">
+          <text value="[preprint]" suffix=" "/>
+        </else-if>
+      </choose>
+      <text macro="author" suffix=" "/>
+      <text macro="publication-date" suffix=" "/>
+      <choose>
+        <if type="dataset">
+          <text macro="dataset-entry" suffix="."/>
+        </if>
+        <else-if type="article manuscript" match="any">
+          <text macro="preprint-entry"/>
+        </else-if>
+        <else-if type="book">
+          <text macro="book-entry" suffix="."/>
+        </else-if>
+        <else-if type="thesis">
+          <text macro="thesis-entry"/>
+        </else-if>
+        <else-if type="article-journal">
+          <text macro="journal-article"/>
         </else-if>
         <else>
-          <text variable="title" prefix=" " suffix="."/>
-          <group prefix=" ">
-            <group delimiter=" " suffix=", ">
-              <text variable="container-title" form="short" font-style="italic" strip-periods="false"/>
-              <text variable="volume"/>
-            </group>
-            <text variable="page"/>
+          <text variable="title" suffix="."/>
+          <group prefix=" " delimiter=", ">
+            <text variable="publisher"/>
+            <text macro="publication-identifier"/>
           </group>
         </else>
       </choose>
