@@ -25,8 +25,8 @@
     </contributor>
     <category citation-format="numeric"/>
     <category field="chemistry"/>
-    <summary>Analytical Chemistry numeric superscript citations and ACS Guide 2026 reference format. Derived from official CSL ACS style.</summary>
-    <updated>2026-11-05T00:00:00+00:00</updated>
+    <summary>Analytical Chemistry numeric in-text citations in parentheses (1), (2), and bibliography numbering as 1., 2. Derived from ACS Guide 2026 CSL style.</summary>
+    <updated>2026-11-05T10:00:00+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
@@ -170,13 +170,13 @@
     <sort>
       <key variable="citation-number"/>
     </sort>
-    <layout delimiter="," vertical-align="sup">
+    <layout prefix="(" suffix=")" delimiter=", ">
       <text variable="citation-number"/>
     </layout>
   </citation>
   <bibliography second-field-align="flush" entry-spacing="0">
     <layout>
-      <text variable="citation-number" prefix="(" suffix=")"/>
+      <text variable="citation-number" suffix=". "/>
       <group delimiter=". " suffix=".">
         <text macro="author"/>
         <choose>
